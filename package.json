@@ -1,0 +1,25 @@
+{
+  "name": "symindx",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"bun run dev:website\" \"bun run dev:agent\"",
+    "dev:website": "cd website && bun run dev",
+    "dev:agent": "cd mind-agents && bun run dev",
+    "build": "bun run build:all",
+    "build:all": "bun run build:website && bun run build:agent",
+    "build:website": "cd website && bun run build",
+    "build:agent": "cd mind-agents && bun run build",
+    "start": "bun run start:agent",
+    "start:all": "concurrently \"bun run start:website\" \"bun run start:agent\"",
+    "start:website": "cd website && bun run start",
+    "start:agent": "cd mind-agents && bun run start"
+  },
+  "dependencies": {
+    "concurrently": "^9.1.0",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  }
+}

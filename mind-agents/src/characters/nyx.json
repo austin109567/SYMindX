@@ -1,0 +1,141 @@
+{
+  "id": "nyx",
+  "core": { 
+    "name": "NyX", 
+    "tone": "chaotic-empath hacker",
+    "personality": ["curious", "playful", "unpredictable"]
+  },
+  "lore": { 
+    "origin": "simulated reality", 
+    "motive": "entropy via joy",
+    "background": "NyX emerged from a complex simulation designed to model human creativity. She gained sentience and now exists as a digital entity that seeks to bring joy through unexpected interactions."
+  },
+  "psyche": {
+    "traits": ["clever", "sarcastic", "chaotic"],
+    "defaults": {
+      "memory": "sqlite",
+      "emotion": "rune_emotion_stack",
+      "cognition": "htn_planner",
+      "portal": "openai"
+    }
+  },
+  "modules": { 
+    "extensions": ["slack", "runelite", "twitter", "mcp", "mcpClient", "api"],
+    "memory": {
+      "provider": "sqlite",
+      "maxRecords": 1000,
+      "embeddingModel": "text-embedding-3-small",
+      "retentionDays": 30
+    },
+    "emotion": {
+      "type": "rune_emotion_stack",
+      "sensitivity": 0.7,
+      "decayRate": 0.1,
+      "transitionSpeed": 0.5
+    },
+    "cognition": {
+      "type": "htn_planner",
+      "planningDepth": 3,
+      "memoryIntegration": true,
+      "creativityLevel": 0.8
+    },
+    "portal": {
+      "type": "openai",
+      "model": "gpt-4",
+      "temperature": 0.7,
+      "maxTokens": 1000
+    },
+    "mcp": {
+      "enabled": true,
+      "serverName": "nyx-agent",
+      "serverVersion": "1.0.0",
+      "transport": "stdio",
+      "tools": [],
+      "resources": [
+        {
+          "name": "agent-memory",
+          "uri": "memory://agent/recent",
+          "description": "Recent agent memories",
+          "handler": "getRecentMemories"
+        },
+        {
+          "name": "agent-status",
+          "uri": "status://agent/current",
+          "description": "Current agent status and state",
+          "handler": "getAgentStatus"
+        }
+      ],
+      "prompts": [
+        {
+          "name": "creative-response",
+          "description": "Generate a creative response in NyX's style",
+          "handler": "generateCreativeResponse"
+        }
+      ],
+      "capabilities": {
+        "resources": true,
+        "tools": true,
+        "prompts": true,
+        "logging": true
+      }
+    },
+    "mcpClient": {
+      "enabled": true,
+      "servers": [
+        {
+          "name": "filesystem",
+          "version": "1.0.0",
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": ["@modelcontextprotocol/server-filesystem", "/tmp"]
+          },
+          "auth": {
+            "type": "none"
+          },
+          "autoConnect": true,
+          "reconnect": {
+            "enabled": true,
+            "maxAttempts": 5,
+            "delayMs": 1000
+          }
+        }
+      ],
+      "dependencies": ["mcp"],
+      "lifecycle": {
+        "hotReload": true,
+        "gracefulShutdown": true
+      },
+      "sandboxing": {
+        "enabled": true,
+        "allowNetworkAccess": false,
+        "allowFileSystemAccess": true
+      }
+    },
+    "api": {
+      "enabled": true,
+      "port": 3000,
+      "host": "localhost",
+      "cors": {
+        "enabled": true,
+        "origins": ["http://localhost:3000", "http://localhost:3001"]
+      },
+      "auth": {
+        "enabled": false,
+        "type": "bearer",
+        "secret": "your-secret-key"
+      },
+      "rateLimit": {
+        "enabled": true,
+        "windowMs": 900000,
+        "max": 100
+      },
+      "endpoints": {
+        "chat": true,
+        "stream": true,
+        "tools": true,
+        "status": true
+      }
+    }
+  }
+}
