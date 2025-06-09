@@ -494,7 +494,7 @@ export class SYMindXConflictResolver implements ConflictResolver {
     }
 
     if (requesters.length === 1) {
-      return requesters[0]
+      return requesters[0].id
     }
 
     // Implement sophisticated conflict resolution based on multiple factors
@@ -505,25 +505,25 @@ export class SYMindXConflictResolver implements ConflictResolver {
       let score = 0
       
       // Factor 1: Agent priority (higher is better)
-      score += (requester.priority || 0.5) * 30
+      score += ((requester as any).priority || 0.5) * 30
       
       // Factor 2: Current workload (lower is better)
-      const workload = requester.currentTasks?.length || 0
+      const workload = (requester as any).currentTasks?.length || 0
       score += Math.max(0, 20 - workload * 2)
       
       // Factor 3: Capability match for the resource
-      const capabilities = requester.capabilities || []
-      const resourceType = resource.type || 'generic'
+      const capabilities = (requester as any).capabilities || []
+      const resourceType = (resource as any).type || 'generic'
       if (capabilities.includes(resourceType)) {
         score += 25
       }
       
       // Factor 4: Recent success rate
-      const successRate = requester.metrics?.successRate || 0.5
+      const successRate = (requester as any).metrics?.successRate || 0.5
       score += successRate * 15
       
       // Factor 5: Time since last resource access (fairness)
-      const lastAccess = requester.lastResourceAccess || 0
+      const lastAccess = (requester as any).lastResourceAccess || 0
       const timeSinceAccess = Date.now() - lastAccess
       score += Math.min(timeSinceAccess / (1000 * 60), 10) // Max 10 points for 1+ minutes
       
@@ -533,7 +533,7 @@ export class SYMindXConflictResolver implements ConflictResolver {
       }
     }
     
-    return bestRequester
+    return bestRequester.id
   }
 
   async resolveTaskConflict(task: Task, candidates: Agent[]): Promise<string> {
@@ -543,14 +543,14 @@ export class SYMindXConflictResolver implements ConflictResolver {
     }
 
     if (candidates.length === 1) {
-      return candidates[0]
+      return candidates[0].id
     }
 
     // Implement sophisticated task assignment based on agent capabilities and load
     let bestCandidate = candidates[0]
     let bestScore = 0
     
-    for (const candidateId of candidates) {
+    for (const candidate of candidates) {
       let score = 0
       
       // Get agent information (this would need to be passed in or retrieved)
@@ -571,7 +571,7 @@ export class SYMindXConflictResolver implements ConflictResolver {
       
       // Factor 4: Agent specialization
       // Check if agent has specific skills for this task
-      if (task.requiredCapabilities) {
+      if ((task as any).requiredCapabilities) {
         // Assume agent has capabilities - in real implementation,
         // we'd check against actual agent capabilities
         score += 25
@@ -587,11 +587,11 @@ export class SYMindXConflictResolver implements ConflictResolver {
       
       if (score > bestScore) {
         bestScore = score
-        bestCandidate = candidateId
+        bestCandidate = candidate
       }
     }
     
-    return bestCandidate
+    return bestCandidate.id
   }
 
   async resolvePriorityConflict(tasks: Task[]): Promise<Task[]> {

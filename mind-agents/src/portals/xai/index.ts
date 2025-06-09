@@ -64,6 +64,7 @@ export class XAIPortal extends BasePortal {
           completionTokens: data.usage?.completion_tokens || 0,
           totalTokens: data.usage?.total_tokens || 0
         },
+        finishReason: (choice.finish_reason as FinishReason) || FinishReason.STOP,
         metadata: {
           model,
           provider: 'xai'
@@ -128,6 +129,7 @@ export class XAIPortal extends BasePortal {
           completionTokens: data.usage?.completion_tokens || 0,
           totalTokens: data.usage?.total_tokens || 0
         },
+        finishReason: (choice.finish_reason as FinishReason) || FinishReason.STOP,
         metadata: {
           model,
           provider: 'xai'

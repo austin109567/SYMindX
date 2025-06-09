@@ -63,7 +63,7 @@ export class AnthropicPortal extends BasePortal {
           completionTokens: result.usage?.completionTokens || 0,
           totalTokens: result.usage?.totalTokens || 0
         },
-        finishReason: result.finishReason as FinishReason || FinishReason.STOP,
+        finishReason: (result.finishReason as FinishReason) || FinishReason.STOP,
         metadata: {
           model,
           provider: 'anthropic'
@@ -113,6 +113,7 @@ export class AnthropicPortal extends BasePortal {
           completionTokens: result.usage?.completionTokens || 0,
           totalTokens: result.usage?.totalTokens || 0
         },
+        finishReason: (result.finishReason as FinishReason) || FinishReason.STOP,
         metadata: {
           model,
           provider: 'anthropic'

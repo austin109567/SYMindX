@@ -6,7 +6,7 @@
  */
 
 import { openai, createOpenAI } from '@ai-sdk/openai'
-import { generateText, generateObject, streamText, streamObject } from 'ai'
+import { generateText, streamText } from 'ai'
 import { BasePortal } from '../base-portal.js'
 import { PortalConfig, TextGenerationOptions, TextGenerationResult, 
   ChatMessage, ChatGenerationOptions, ChatGenerationResult, EmbeddingOptions, EmbeddingResult,
@@ -121,7 +121,7 @@ export class OpenAIPortal extends BasePortal {
           completionTokens: result.usage?.completionTokens || 0,
           totalTokens: result.usage?.totalTokens || 0
         },
-        finishReason: result.finishReason as FinishReason || FinishReason.STOP,
+        finishReason: (result.finishReason as FinishReason) || FinishReason.STOP,
         metadata: {
           model,
           provider: 'openai'

@@ -10,7 +10,7 @@ import { generateText, streamText } from 'ai'
 import { BasePortal } from '../base-portal.js'
 import { PortalConfig, TextGenerationOptions, TextGenerationResult, 
   ChatMessage, ChatGenerationOptions, ChatGenerationResult, EmbeddingOptions, EmbeddingResult,
-  ImageGenerationOptions, ImageGenerationResult, PortalCapability, PortalType, ModelType, MessageRole } from '../../types/portal.js'
+  ImageGenerationOptions, ImageGenerationResult, PortalCapability, PortalType, ModelType, MessageRole, FinishReason } from '../../types/portal.js'
 
 export interface GroqConfig extends PortalConfig {
   model?: string
@@ -65,6 +65,7 @@ export class GroqPortal extends BasePortal {
           completionTokens: result.usage?.completionTokens || 0,
           totalTokens: result.usage?.totalTokens || 0
         },
+        finishReason: (result.finishReason as FinishReason) || FinishReason.STOP,
         metadata: {
           model,
           provider: 'groq'
@@ -116,6 +117,7 @@ export class GroqPortal extends BasePortal {
           completionTokens: result.usage?.completionTokens || 0,
           totalTokens: result.usage?.totalTokens || 0
         },
+        finishReason: (result.finishReason as FinishReason) || FinishReason.STOP,
         metadata: {
           model,
           provider: 'groq'

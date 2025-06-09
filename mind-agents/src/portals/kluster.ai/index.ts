@@ -67,7 +67,7 @@ export class KlusterAiPortal extends BasePortal {
           completionTokens: data.usage?.completion_tokens || 0,
           totalTokens: data.usage?.total_tokens || 0
         },
-        finishReason: choice.finish_reason || 'stop',
+        finishReason: (choice.finish_reason as FinishReason) || FinishReason.STOP,
         metadata: {
           model,
           provider: 'kluster.ai'
@@ -135,7 +135,7 @@ export class KlusterAiPortal extends BasePortal {
           completionTokens: data.usage?.completion_tokens || 0,
           totalTokens: data.usage?.total_tokens || 0
         },
-        finishReason: choice.finish_reason || 'stop',
+        finishReason: (choice.finish_reason as FinishReason) || FinishReason.STOP,
         metadata: {
           model,
           provider: 'kluster.ai'
