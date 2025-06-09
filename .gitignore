@@ -3,6 +3,12 @@ node_modules/
 */node_modules/
 bun.lockb
 
+# Trae IDE
+.trae/
+
+# Documentation
+mind-agents/docs/
+
 # Build outputs
 dist/
 build/
